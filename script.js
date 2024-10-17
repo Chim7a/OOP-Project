@@ -1,4 +1,7 @@
 // Create an object class to store the product to store id, name amd price.
+const TOTAL_CART_ITEMS = document.getElementById("total--cart--items");
+const DISPLAY_CART_ITEM = document.getElementById("total--cart--items");
+const TOTAL_PRICE = document.getElementById("total--price");
 
 // Product class
 class Product {
@@ -38,8 +41,8 @@ class ShoppingCartItems {
   }
 
   //   Decrease quantity
-  decreaseQuantity() {
-    console.log("-");
+  decreaseQuantity(productId) {
+    console.log(productId);
   }
 
   //   Remove Item
@@ -49,7 +52,35 @@ class ShoppingCartItems {
 
   // Display CartItems
   displayCartItems() {
-    console.log("display");
+    let products = this.cartItems.map((item) => {
+      return `
+        <div class="product-card flex gap-10">
+          <h2>${item.name}</h2>
+          <h3>${item.price}</h3>
+          <div>
+            <button id=${item.id} class=" decrease--btn bg-red-500 rounded-md p-2 text-white">
+              Derease btn
+            </button>
+            <p>${item.quantity}</p>
+            <button class="bg-green-500 rounded-md p-2 text-white">
+              Inrease btn
+            </button>
+          </div>
+          <p>Item Total</p>
+        </div>
+        `;
+    });
+
+    DISPLAY_CART_ITEM.innerHTML = products.join(" ");
+
+    // Get all btns for decrease
+    const decreaseBTN = document.querySelectorAll(".decrease--btn");
+
+    decreaseBTN.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        this.decreaseQuantity(e.target.getAttribute("id"));
+      });
+    });
   }
 }
 
