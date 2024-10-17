@@ -1,6 +1,6 @@
 // Create an object class to store the product to store id, name amd price.
 const TOTAL_CART_ITEMS = document.getElementById("total--cart--items");
-const DISPLAY_CART_ITEM = document.getElementById("total--cart--items");
+const DISPLAY_CART_ITEM = document.getElementById("display--cart--items");
 const TOTAL_PRICE = document.getElementById("total--price");
 
 // Product class
@@ -19,7 +19,7 @@ class ProductInfo extends Product {
     this.quantity = quantity;
   }
   getProductTotal() {
-    console.log("Sum");
+    return this.price * this.quantity;
   }
 }
 
@@ -32,22 +32,37 @@ class ShoppingCartItems {
   }
 
   getNumbersOfItemsInCart() {
-    console.log("legnth");
+    TOTAL_CART_ITEMS.innerText = this.cartItems.length;
   }
 
   //   Increase quantity
-  increaseQuantity() {
-    console.log("+");
+  increaseQuantity(productId) {
+    this.cartItems.forEach((item) => {
+      if (item.id === productId) {
+        item.quantity += 1;
+      }
+      this.displayCartItems();
+    });
   }
 
   //   Decrease quantity
   decreaseQuantity(productId) {
-    console.log(productId);
+    this.cartItems.forEach((item) => {
+      if (item.id === productId && item.quantity > 1) {
+        item.quantity -= 1;
+      }
+      this.displayCartItems();
+    });
   }
 
   //   Remove Item
-  removeCart() {
-    console.log("remoce");
+  deleteCart(productId) {
+    let updatedCartItem = this.cartItems.filter(
+      (item) => item.id !== productId
+    );
+    this.cartItems = updatedCartItem;
+    this.displayCartItems();
+    this.getNumbersOfItemsInCart();
   }
 
   // Display CartItems
@@ -58,15 +73,24 @@ class ShoppingCartItems {
           <h2>${item.name}</h2>
           <h3>${item.price}</h3>
           <div>
-            <button id=${item.id} class=" decrease--btn bg-red-500 rounded-md p-2 text-white">
+            <button id=${
+              item.id
+            } class=" decrease--btn bg-red-500 rounded-md p-2 text-white">
               Derease btn
             </button>
             <p>${item.quantity}</p>
-            <button class="bg-green-500 rounded-md p-2 text-white">
+            <button id=${
+              item.id
+            } class="increase--btn bg-green-500 rounded-md p-2 text-white">
               Inrease btn
             </button>
+            <button id=${
+              item.id
+            } class="delete--btn bg-purple-500 rounded-md p-2 text-white">
+              Delete
+            </button>
           </div>
-          <p>Item Total</p>
+          <p>${item.getProductTotal()}</p>
         </div>
         `;
     });
@@ -75,10 +99,23 @@ class ShoppingCartItems {
 
     // Get all btns for decrease
     const decreaseBTN = document.querySelectorAll(".decrease--btn");
+    const increaseBTN = document.querySelectorAll(".increase--btn");
+    const deleteBTN = document.querySelectorAll(".delete--btn");
 
     decreaseBTN.forEach((element) => {
       element.addEventListener("click", (e) => {
-        this.decreaseQuantity(e.target.getAttribute("id"));
+        this.decreaseQuantity(parseInt(e.target.getAttribute("id")));
+      });
+    });
+
+    increaseBTN.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        this.increaseQuantity(parseInt(e.target.getAttribute("id")));
+      });
+    });
+    deleteBTN.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        this.deleteCart(parseInt(e.target.getAttribute("id")));
       });
     });
   }
@@ -98,3 +135,4 @@ const ShoppingCart = new ShoppingCartItems(cartItems);
 
 // Display all cart items
 ShoppingCart.displayCartItems();
+ShoppingCart.getNumbersOfItemsInCart();
