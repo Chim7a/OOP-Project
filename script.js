@@ -31,8 +31,9 @@ class ShoppingCartItems {
     this.cartItems = cartItems;
   }
 
+  //   Get numbers of items in cart
   getNumbersOfItemsInCart() {
-    TOTAL_CART_ITEMS.innerText = this.cartItems.length;
+    TOTAL_CART_ITEMS.innerText = `Quantity: ${this.cartItems.length}`;
   }
 
   //   Increase quantity
@@ -42,6 +43,7 @@ class ShoppingCartItems {
         item.quantity += 1;
       }
       this.displayCartItems();
+      this.getTotalOfItemsInCart();
     });
   }
 
@@ -52,6 +54,7 @@ class ShoppingCartItems {
         item.quantity -= 1;
       }
       this.displayCartItems();
+      this.getTotalOfItemsInCart();
     });
   }
 
@@ -63,34 +66,40 @@ class ShoppingCartItems {
     this.cartItems = updatedCartItem;
     this.displayCartItems();
     this.getNumbersOfItemsInCart();
+    this.getTotalOfItemsInCart();
   }
 
   // Display CartItems
   displayCartItems() {
     let products = this.cartItems.map((item) => {
       return `
-        <div class="product-card flex gap-10">
+         <div class="product-card flex items-center font-semibold gap-10">
           <h2>${item.name}</h2>
           <h3>${item.price}</h3>
-          <div>
-            <button id=${
-              item.id
-            } class=" decrease--btn bg-red-500 rounded-md p-2 text-white">
-              Derease btn
+          <div class="text-center">
+            <button
+              id="${item.id}"
+              class="decrease--btn bg-red-500 rounded-md p-2 text-white"
+            >
+              -
             </button>
             <p>${item.quantity}</p>
-            <button id=${
-              item.id
-            } class="increase--btn bg-green-500 rounded-md p-2 text-white">
-              Inrease btn
+            <button
+              id="${item.id}"
+              class="increase--btn bg-green-500 rounded-md p-2 text-white"
+            >
+              +
             </button>
-            <button id=${
-              item.id
-            } class="delete--btn bg-purple-500 rounded-md p-2 text-white">
+          </div>
+          <div>
+            <p>${item.getProductTotal()}</p>
+            <button
+              id="${item.id}"
+              class="delete--btn bg-purple-500 rounded-md p-2 text-white"
+            >
               Delete
             </button>
           </div>
-          <p>${item.getProductTotal()}</p>
         </div>
         `;
     });
@@ -119,13 +128,23 @@ class ShoppingCartItems {
       });
     });
   }
+
+  //   Get total of items
+  getTotalOfItemsInCart() {
+    let total = 0;
+    this.cartItems.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+
+    TOTAL_PRICE.innerText = `Total: ${total}`;
+  }
 }
 
 // Cart items
 
 let cartItems = [
-  new ProductInfo(1, "Iphone 6", 1000, 1),
-  new ProductInfo(2, "bag", 500, 1),
+  new ProductInfo(1, "Iphone 16", 1000, 1),
+  new ProductInfo(2, "Television", 5000, 1),
   new ProductInfo(3, "Pink rose", 3400, 1),
 ];
 
@@ -135,4 +154,5 @@ const ShoppingCart = new ShoppingCartItems(cartItems);
 
 // Display all cart items
 ShoppingCart.displayCartItems();
+ShoppingCart.getTotalOfItemsInCart();
 ShoppingCart.getNumbersOfItemsInCart();

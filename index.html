@@ -5,13 +5,24 @@
     <title>Document</title>
   </head>
   <body>
-    <section id="cart--container">
-      <h3 id="total--cart--items" class="text-2xl font-bold">5</h3>
+    <section
+      id="cart--container"
+      class="flex flex-col justify-center items-center h-dvh"
+    >
+      <!-- Display Product Card Section -->
       <div
         id="display--cart--items"
-        class="shadow p-4 border rounded-lg w-fit"
+        class="shadow p-4 border rounded-lg w-fit flex flex-col gap-2"
       ></div>
-      <h4 id="total--price" class="text-2xl font-bold">100,000</h4>
+      <!-- ******** -->
+      <div class="flex justify-between w-80">
+        <!-- Total Quantity Section -->
+        <h3 id="total--cart--items" class="text-lg font-bold"></h3>
+        <!-- *********** -->
+        <!-- Total Price Section -->
+        <h4 id="total--price" class="text-2xl font-bold"></h4>
+        <!-- *********** -->
+      </div>
     </section>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="script.js"></script>
