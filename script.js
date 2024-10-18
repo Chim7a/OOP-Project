@@ -33,7 +33,7 @@ class ShoppingCartItems {
 
   //   Get numbers of items in cart
   getNumbersOfItemsInCart() {
-    TOTAL_CART_ITEMS.innerText = `Quantity: ${this.cartItems.length}`;
+    TOTAL_CART_ITEMS.innerText = `Items: ${this.cartItems.length}`;
   }
 
   //   Increase quantity
